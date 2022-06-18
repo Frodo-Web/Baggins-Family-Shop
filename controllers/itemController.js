@@ -36,6 +36,68 @@ exports.item_list = function (req, res, next) {
     });
 };
 
+exports.item_detail = function (req, res, next) {
+
+    async.parallel({
+        item: function(callback) {
+            Item.findById(req.params.id)
+            .populate('category')
+            .populate('brand')
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.item==null) { 
+            const err = new Error('Item not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('item_detail', { item: results.item } );
+    });
+};
+
+exports.item_delete_get = function (req, res, next) {
+    async.parallel({
+        item: function(callback) {
+            Item.findById(req.params.id)
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.item==null) { 
+            const err = new Error('Item not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('item_delete', { item: results.item } );
+    });
+};
+
+exports.item_delete_post = function (req, res, next) {
+    
+    async.parallel({
+        item: function(callback) {
+            Item.findById(req.body.item_id)
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.item==null) { 
+            const err = new Error('Item not found');
+            err.status = 404;
+            return next(err);
+        }
+        try {
+            fs.unlinkSync(path.join(global.appRoot, results.item.img.url));
+        } catch (error) {
+            console.log(error);
+        }
+        Item.findByIdAndRemove(req.body.item_id, function deleteItem(err) {
+            res.redirect('/collection/all')
+        });
+    });
+};
+
 exports.item_create_get = function (req, res, next) {
     async.parallel({
         categories: function(callback) {

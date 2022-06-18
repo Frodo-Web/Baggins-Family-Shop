@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  div
+    a(href="/collection") To collection
+    a(href="/collection/all") To collection all
+    a(href="/collection/create_item") To collection create item
+    h2= item.name
+    img(src= '/' + item.img.url)
+    p= item.description
+    p= 'Sex: ' + item.sex
+    p='Price: ' + item.price.value + ' ' + item.price.unit
+    if item.category
+      p= 'Category: ' + item.category.name
+    if item.brand
+      p= 'Brand: ' + item.brand.name

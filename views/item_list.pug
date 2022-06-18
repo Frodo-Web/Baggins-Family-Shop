@@ -7,4 +7,9 @@ block content
       each item in item_list
         div(id=item._id)
           p= item.name
+          a(href=item.url) #{item.name} Details
+          | !{' '}
+          a(href=item.url + '/delete') Delete Item
+          br
           img(class='item', src= '/' + item.img.url)
+          
