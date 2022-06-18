@@ -1,0 +1,10 @@
+extends layout
+
+block content
+
+  h2= title
+    div
+      each item in item_list
+        div(id=item._id)
+          p= item.name
+          img(class='item', src= '/' + item.img.url)

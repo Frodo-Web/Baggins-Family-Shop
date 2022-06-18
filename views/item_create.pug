@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  div
+    a(href="/collection") To collection
+    a(href="/collection/all") Collection all
+    a(href="/") To home
+    form(action="/collection/create_item", method="POST", enctype="multipart/form-data")
+      div
+        label(for="name") Item name
+        input(type="text", id="name", placeholder="Name", value="", name="name", required)
+      div
+        label(for="description") Item description
+        textarea(id="description", name="description", value="", placeholder="Description", cols="30", rows="10" required)
+      div
+        label(for="brand") Brand:
+        select(type="select", id="brand", placeholder="Select brand", name="brand")
+          - brands.sort(function (a, b) { let brandA = a.name.toUpperCase(); let brandB = b.name.toUpperCase(); return (brandA < brandB) ? -1 : (brandA > brandB) ? 1 : 0; });
+          option(value="") No brand
+          for brand in brands
+            option(value=brand._id) #{brand.name}
+      div
+        label(for="category") Category:
+        select(type="select", id="category", placeholder="Select category", name="category", required)
+          - categories.sort(function (a, b) { let categoryA = a.name.toUpperCase(); let categoryB = b.name.toUpperCase(); return (categoryA < categoryB) ? -1 : (categoryA > categoryB) ? 1 : 0; });
+          for category in categories
+            option(value=category._id) #{category.name}
+      div
+        input(type="radio", id="unisex", name="sex", value="unisex", checked="checked")
+        label(for="unisex") Unisex
+        input(type="radio", id="men", name="sex", value="men")
+        label(for="men") Men
+        input(type="radio", id="women", name="sex", value="women")
+        label(for="women") Women
+      div
+        label(for="price_value") Price value:
+        input(type="number", id="price_value", placeholder="price value", value="0", min="0", name="price_value", required)
+        label(for="price_unit") Price unit:
+        select(type="select", id="price_unit", name="price_unit")
+          option(value="usd", selected) USD
+          option(value="eur") EUR
+          option(value="jpy") JPY
+          option(value="btc") BTC
+      div
+        label(for="bestseller") Bestseller:
+        input(type="checkbox", id="bestseller", name="bestseller", value="true")
+      div
+        label(for="image") Item Image
+        input(type="file", id="image", name="image", value="", required) 
+      div
+        button(type="submit") Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

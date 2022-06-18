@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+  h1= title
+
+  if error
+    p Error getting dynamic content.
+  else
+    p Baggins Family Shop has the following record counts:
+
+    ul
+      li #[strong Total models:] !{data.itemCount}
+      li #[strong Total brands:] !{data.brandCount}
+      li #[strong Total items in the storage:] !{data.instancesCount}
