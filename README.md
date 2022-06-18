@@ -1,2 +1,2 @@
 # Baggins-Family-Shop
-A simple online shop project.
+Not a real project. Just practicing Express and Mongoose
