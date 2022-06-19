@@ -9,6 +9,7 @@ block content
     | !{' '}
     if currentUser 
       h1 #{currentUser.username} Good morning, sir
+      h3 You have viewed this page as authenticated user #{views} time(s)
     if !currentUser
       a(href="/sign-up") Haven't registered yet? Sign up now!
       h1 Sign In

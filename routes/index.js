@@ -5,7 +5,8 @@ const passport = require("passport");
 const bcrypt = require('bcryptjs');
 
 router.get('/', (req, res) => {
-    res.render('home', { title: "This is the homepage" });
+    if (req.user) req.session.viewCount = (req.session.viewCount || 0) + 1;
+    res.render('home', { title: "This is the homepage", views: req.session.viewCount });
 });
 router.get("/log-out", (req, res) => {
     req.logout(function (err) {

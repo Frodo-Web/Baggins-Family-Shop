@@ -5,6 +5,7 @@ require('dotenv').config();
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require('./models/user');
@@ -49,7 +50,16 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(session({ secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URL,
+        mongooseConnection: mongoose.connection,
+        ttl: 20,
+        collectionName: 'sessions'
+    }),
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
