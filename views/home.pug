@@ -6,3 +6,15 @@ block content
     a(href="/collection") To collection
     a(href="/collection/all") To collection all
     a(href="/collection/create_item") To collection create item
+    | !{' '}
+    if currentUser 
+      h1 #{currentUser.username} Good morning, sir
+    if !currentUser
+      a(href="/sign-up") Haven't registered yet? Sign up now!
+      h1 Sign In
+      form(action='/', method='POST')
+        label(for="username") Username
+        input(name="username", placeholder="username", type="text")
+        label(for="password") Password
+        input(name="password", type="password")
+        button(type="submit") Sign In

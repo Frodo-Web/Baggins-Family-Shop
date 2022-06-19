@@ -9,7 +9,8 @@ block content
           p= item.name
           a(href=item.url) #{item.name} Details
           | !{' '}
-          a(href=item.url + '/delete') Delete Item
+          if currentUser
+            a(href=item.url + '/delete') Delete Item
           br
           img(class='item', src= '/' + item.img.url)
           
